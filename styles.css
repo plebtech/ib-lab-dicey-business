@@ -45,6 +45,7 @@ body {
 
 .die {
     display: flex;
+    cursor: pointer;
 }
 .die > span {
     /* margin: auto; */

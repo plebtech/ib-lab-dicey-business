@@ -13,12 +13,13 @@ function encapsulator() {
             this.div = document.createElement('div'); // creates div via DOM.
             this.div.className = 'die'; // assigned class to div.
             this.div.id = counter; // assigns id to div (based on counter value).
-            this.animate(1000);
+            container.appendChild(this.div);
+            this.animate();
             counter++;
             dice.push(this);
+            this.listen();
         }
-        animate(limit) {
-            container.appendChild(this.div);
+        animate(limit = 1000) {
             let start = Date.now();
             let timer = setInterval(function () {
                 let timePassed = Date.now() - start;
@@ -34,13 +35,24 @@ function encapsulator() {
             this.value = r;
             this.div.innerHTML = '<span>' + setFace(this.value) + '</span>';
         }
+        listen() {
+            this.div.addEventListener('click', () => {
+                this.animate();
+                document.getElementById('status').innerHTML = `<span>Selected die rerolled</span>`;
+            });
+            this.div.addEventListener('dblclick', () => {
+                this.div.remove();
+                dice.splice(this, 1);
+                console.log(dice);
+                document.getElementById('status').innerHTML = `<span>Selected die removed</span>`;
+            });
+        }
     }
 
     GENERATE_BTN.addEventListener('click', () => {
         new Die();
         let noun = setNoun();
         document.getElementById('status').innerHTML = `<span>Number of ${noun}: ${dice.length}</span>`;
-
     });
 
     REROLL_BTN.addEventListener('click', () => {
