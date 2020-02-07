@@ -42,21 +42,30 @@ function encapsulator() {
         document.getElementById('status').innerHTML = `<span>Number of ${noun}: ${dice.length}</span>`;
 
     });
-    
+
     REROLL_BTN.addEventListener('click', () => {
-        dice.forEach((die) => {
+        if (dice.length === 0) {
+            document.getElementById('status').innerHTML = `<span>NO DICE</span>`;
+            return;
+        } else dice.forEach((die) => {
             die.animate(1000);
+            let noun = setNoun();
+            document.getElementById('status').innerHTML = `<span>${dice.length} ${noun} rerolled</span>`;
         })
-        let noun = setNoun();
-        document.getElementById('status').innerHTML = `<span>${dice.length} ${noun} rerolled</span>`;
     });
 
     SUM_BTN.addEventListener('click', () => {
-        let sum = 0;
-        dice.forEach((die) => {
-            sum+= die.value;
-        });
-        document.getElementById('status').innerHTML = `<span>Sum: ${sum}</span>`;
+        if (dice.length === 0) {
+            document.getElementById('status').innerHTML = `<span>NO DICE</span>`;
+            return;
+        } else {
+            let sum = 0;
+            let noun = setNoun();
+            dice.forEach((die) => {
+                sum += die.value;
+            });
+            document.getElementById('status').innerHTML = `<span>Sum of ${noun}: ${sum}</span>`;
+        }
     });
 
     function setNoun() {
