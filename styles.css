@@ -1,24 +1,23 @@
-* {
+/* * {
     margin: 1%;
     padding: 1%;
-}
+} */
 
 body {
-    max-width: 968px;
+    max-width: 640px;
     margin: 1% auto;
     border: 1px solid #000;
 }
 
-#generate {
+#controls {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
-    padding: 1%;
     border: 1px solid #93a1a1;
     background-color: #eee;
 }
-#generate > button {
-    width: 100%;
+#controls > button {
+    margin: 2%;
     padding: 1%;
     background-color: #ccc;
     font-size: 2em;
@@ -29,7 +28,16 @@ body {
 #container {
     display: flex;
     flex-flow: row wrap;
-    min-height: 200px;
+    justify-content: space-around;
+    min-height: 10px;
     background-color: #eee;
     border: 1px solid #93a1a1;
+}
+
+.die {
+    display: flex;
+}
+.die > span {
+    /* margin: auto; */
+    font-size: 10em;
 }
