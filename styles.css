@@ -1,0 +1,35 @@
+* {
+    margin: 1%;
+    padding: 1%;
+}
+
+body {
+    max-width: 968px;
+    margin: 1% auto;
+    border: 1px solid #000;
+}
+
+#generate {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    padding: 1%;
+    border: 1px solid #93a1a1;
+    background-color: #eee;
+}
+#generate > button {
+    width: 100%;
+    padding: 1%;
+    background-color: #ccc;
+    font-size: 2em;
+    font-family: monospace;
+    cursor: pointer;
+}
+
+#container {
+    display: flex;
+    flex-flow: row wrap;
+    min-height: 200px;
+    background-color: #eee;
+    border: 1px solid #93a1a1;
+}
