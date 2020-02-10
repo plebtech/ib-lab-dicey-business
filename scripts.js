@@ -1,5 +1,5 @@
 console.log("Loading..");
-
+// 'encapsulator' obfuscates variables from window access.
 function encapsulator() {
     const CONTAINER = document.getElementById("container");
     const GENERATE_BTN = document.getElementById("controls").querySelectorAll("button")[0];
@@ -7,21 +7,22 @@ function encapsulator() {
     const SUM_BTN = document.getElementById("controls").querySelectorAll("button")[2];
     const LOG_BTN = document.getElementById("controls").querySelectorAll("button")[3];
     const STATUS = document.getElementById("status");
-    let counter = 1;
-    let dice = [];
+    let counter = 1; // starts at 1, incremented AFTER die object is created.
+    let dice = []; // empty array, dice pushed to it as they are created.
 
     class Die {
         constructor() {
-            this.div = document.createElement('div'); // creates div via DOM.
-            this.div.className = 'die'; // assigned class to div.
-            this.div.id = counter; // assigns id to div (based on counter value).
-            this.value;
+            this.div = document.createElement('div'); // create div via DOM.
+            this.div.className = 'die'; // assign class to div.
+            this.div.id = counter; // assign id to div (based on counter value).
+            this.value; // initialize value (to hold die face).
             CONTAINER.appendChild(this.div);
             this.animate();
             counter++;
             dice.push(this);
             this.listen();
         }
+        // 'rolls' dice for one second before settling on final value.
         animate(limit = 1000) {
             let start = Date.now();
             let timer = setInterval(function () {
@@ -33,11 +34,13 @@ function encapsulator() {
                 this.roll();
             }.bind(this), 100);
         }
+        // call function to generate a random die value (1-6) and 
         roll() {
             let r = randomDieVal();
             this.value = r;
             this.div.innerHTML = '<span>' + setFace(this.value) + '</span>';
         }
+        // listeners for each die (click, double-click/right-click).
         listen() {
             this.div.addEventListener('click', () => {
                 this.animate();
@@ -60,12 +63,12 @@ function encapsulator() {
         }
     }
 
+    // button listeners.
     GENERATE_BTN.addEventListener('click', () => {
-        new Die();
+        new Die(); // instantiates Die class.
         let noun = setNoun();
         STATUS.innerHTML = `<span>Number of ${noun}: ${dice.length}</span>`;
     });
-
     REROLL_BTN.addEventListener('click', () => {
         if (dice.length === 0) {
             STATUS.innerHTML = `<span>NO DICE</span>`;
@@ -76,7 +79,6 @@ function encapsulator() {
             STATUS.innerHTML = `<span>${dice.length} ${noun} rerolled</span>`;
         })
     });
-
     SUM_BTN.addEventListener('click', () => {
         if (dice.length === 0) {
             STATUS.innerHTML = `<span>NO DICE</span>`;
@@ -90,11 +92,11 @@ function encapsulator() {
             STATUS.innerHTML = `<span>Sum of ${noun}: ${sum}</span>`;
         }
     });
-
     // LOG_BTN.addEventListener('click', () => {
     //     console.log(dice);
     // })
 
+    // sets noun based on # of existing dice (single die vs multiple dice).
     function setNoun() {
         let n;
         if (dice.length === 1) {
@@ -105,10 +107,15 @@ function encapsulator() {
         return n;
     }
 
+    // return random value between 1 and 6, inclusive.
+    // use of Math.floor(Math.random()) requires formula of ((max+1) - min) + min) because Math.random() generates [0, 1). i.e. generates EXCLUSIVE of 1 and will never return 1.
     function randomDieVal() {
-        return Math.floor(Math.random() * (7 - 1)) + 1;
+        let val = Math.floor(Math.random() * ((6 + 1) - 1) + 1);
+        // console.log(val);
+        return val;
     }
 
+    // returns ascii code for the die 'face' based on random generated value (1 through 6).
     function setFace(value) {
         switch (value) {
             case 1:
@@ -126,6 +133,7 @@ function encapsulator() {
         }
     }
 
+    // when a die is removed, reassign div IDs based on number of dice left, and reset counter to number of dice.
     function reorderDice() {
         let x = 0;
         dice.forEach(die => {
@@ -136,7 +144,6 @@ function encapsulator() {
     }
 }
 
+// run the encapsulating function.
 encapsulator();
-
-
-console.log("Loaded.");
+console.log("Loaded."); // if you see this, no errors!
