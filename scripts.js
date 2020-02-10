@@ -1,10 +1,12 @@
 console.log("Loading..");
 
 function encapsulator() {
-    const container = document.getElementById("container");
+    const CONTAINER = document.getElementById("container");
     const GENERATE_BTN = document.getElementById("controls").querySelectorAll("button")[0];
     const REROLL_BTN = document.getElementById("controls").querySelectorAll("button")[1];
     const SUM_BTN = document.getElementById("controls").querySelectorAll("button")[2];
+    const LOG_BTN = document.getElementById("controls").querySelectorAll("button")[3];
+    const STATUS = document.getElementById("status");
     let counter = 1;
     let dice = [];
 
@@ -13,7 +15,8 @@ function encapsulator() {
             this.div = document.createElement('div'); // creates div via DOM.
             this.div.className = 'die'; // assigned class to div.
             this.div.id = counter; // assigns id to div (based on counter value).
-            container.appendChild(this.div);
+            this.value;
+            CONTAINER.appendChild(this.div);
             this.animate();
             counter++;
             dice.push(this);
@@ -38,13 +41,21 @@ function encapsulator() {
         listen() {
             this.div.addEventListener('click', () => {
                 this.animate();
-                document.getElementById('status').innerHTML = `<span>Selected die rerolled</span>`;
+                STATUS.innerHTML = `<span>Selected die rerolled</span>`;
             });
             this.div.addEventListener('dblclick', () => {
                 this.div.remove();
-                dice.splice(this, 1);
-                console.log(dice);
-                document.getElementById('status').innerHTML = `<span>Selected die removed</span>`;
+                let rIndex = dice.indexOf(this);
+                dice.splice(rIndex, 1);
+                reorderDice();
+                STATUS.innerHTML = `<span>Selected die removed</span>`;
+            });
+            this.div.addEventListener('contextmenu', () => {
+                this.div.remove();
+                let rIndex = dice.indexOf(this);
+                dice.splice(rIndex, 1);
+                reorderDice();
+                STATUS.innerHTML = `<span>Selected die removed</span>`;
             });
         }
     }
@@ -52,33 +63,37 @@ function encapsulator() {
     GENERATE_BTN.addEventListener('click', () => {
         new Die();
         let noun = setNoun();
-        document.getElementById('status').innerHTML = `<span>Number of ${noun}: ${dice.length}</span>`;
+        STATUS.innerHTML = `<span>Number of ${noun}: ${dice.length}</span>`;
     });
 
     REROLL_BTN.addEventListener('click', () => {
         if (dice.length === 0) {
-            document.getElementById('status').innerHTML = `<span>NO DICE</span>`;
+            STATUS.innerHTML = `<span>NO DICE</span>`;
             return;
-        } else dice.forEach((die) => {
+        } else dice.forEach(die => {
             die.animate(1000);
             let noun = setNoun();
-            document.getElementById('status').innerHTML = `<span>${dice.length} ${noun} rerolled</span>`;
+            STATUS.innerHTML = `<span>${dice.length} ${noun} rerolled</span>`;
         })
     });
 
     SUM_BTN.addEventListener('click', () => {
         if (dice.length === 0) {
-            document.getElementById('status').innerHTML = `<span>NO DICE</span>`;
+            STATUS.innerHTML = `<span>NO DICE</span>`;
             return;
         } else {
             let sum = 0;
             let noun = setNoun();
-            dice.forEach((die) => {
+            dice.forEach(die => {
                 sum += die.value;
             });
-            document.getElementById('status').innerHTML = `<span>Sum of ${noun}: ${sum}</span>`;
+            STATUS.innerHTML = `<span>Sum of ${noun}: ${sum}</span>`;
         }
     });
+
+    // LOG_BTN.addEventListener('click', () => {
+    //     console.log(dice);
+    // })
 
     function setNoun() {
         let n;
@@ -110,8 +125,18 @@ function encapsulator() {
                 return '\u2685';
         }
     }
+
+    function reorderDice() {
+        let x = 0;
+        dice.forEach(die => {
+            die.div.id = x;
+            x++;
+        });
+        counter = dice.length;
+    }
 }
 
 encapsulator();
+
 
 console.log("Loaded.");

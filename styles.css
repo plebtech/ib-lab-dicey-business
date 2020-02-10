@@ -23,6 +23,10 @@ body {
     cursor: pointer;
 }
 
+#instructions {
+    font-size: 1.2em;
+}
+
 #status {
     display: flex;
     justify-content: space-around;
