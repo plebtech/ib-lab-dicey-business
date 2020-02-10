@@ -13,7 +13,7 @@ function encapsulator() {
     class Die {
         constructor() {
             this.div = document.createElement('div'); // create div via DOM.
-            this.div.className = 'die'; // assign class to div.
+            this.div.classList.add('die'); // assign class to div.
             this.div.id = counter; // assign id to div (based on counter value).
             this.value; // initialize value (to hold die face).
             CONTAINER.appendChild(this.div);
