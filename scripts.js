@@ -1,14 +1,14 @@
 console.log("Loading..");
 // 'encapsulator' obfuscates variables from window access.
 function encapsulator() {
-    const CONTAINER = document.getElementById("container");
-    const GENERATE_BTN = document.getElementById("controls").querySelectorAll("button")[0];
-    const REROLL_BTN = document.getElementById("controls").querySelectorAll("button")[1];
-    const SUM_BTN = document.getElementById("controls").querySelectorAll("button")[2];
-    const LOG_BTN = document.getElementById("controls").querySelectorAll("button")[3];
-    const STATUS = document.getElementById("status");
-    let counter = 1; // starts at 1, incremented AFTER die object is created.
-    let dice = []; // empty array, dice pushed to it as they are created.
+    const CONTAINER = document.getElementById("container"),
+    GENERATE_BTN = document.getElementById("controls").querySelectorAll("button")[0],
+    REROLL_BTN = document.getElementById("controls").querySelectorAll("button")[1],
+    SUM_BTN = document.getElementById("controls").querySelectorAll("button")[2],
+    LOG_BTN = document.getElementById("controls").querySelectorAll("button")[3],
+    STATUS = document.getElementById("status");
+    let counter = 1, // starts at 1, incremented AFTER die object is created.
+        dice = []; // empty array, dice pushed to it as they are created.
 
     class Die {
         constructor() {
@@ -35,8 +35,8 @@ function encapsulator() {
             }.bind(this), 100);
         }
         // call function to generate a random die value (1-6) and 
-        roll() {
-            let r = randomDieVal();
+        roll(min = 1, max = 6) {
+            let r = randomDieVal(min, max);
             this.value = r;
             this.div.innerHTML = '<span>' + setFace(this.value) + '</span>';
         }
@@ -109,8 +109,8 @@ function encapsulator() {
 
     // return random value between 1 and 6, inclusive.
     // use of Math.floor(Math.random()) requires formula of ((max+1) - min) + min) because Math.random() generates [0, 1). i.e. generates EXCLUSIVE of 1 and will never return 1.
-    function randomDieVal() {
-        let val = Math.floor(Math.random() * ((6 + 1) - 1) + 1);
+    function randomDieVal(min, max) {
+        let val = Math.floor(Math.random() * ((max + 1) - min) + min);
         // console.log(val);
         return val;
     }
