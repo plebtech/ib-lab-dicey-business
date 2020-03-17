@@ -1,3 +1,4 @@
+# project live at [https://plebtech.neocities.org/dice/](https://plebtech.neocities.org/dice/)
 # Dicey Business
 #### Covalence
 
